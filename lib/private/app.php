@@ -641,6 +641,11 @@ class OC_App {
 		$parser = new \OC\App\InfoParser(\OC::$server->getHTTPHelper(), \OC::$server->getURLGenerator());
 		$data = $parser->parse($file);
 
+		// sometimes the description contains line breaks and they are then also
+		// shown in this way in the app management which isn't wanted as HTML
+		// manages line breaks itself
+		$data['description'] = str_replace("\n", ' ', $data['description']);
+
 		self::$appInfo[$appId] = $data;
 
 		return $data;
